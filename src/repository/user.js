@@ -1,53 +1,33 @@
-const users = [
-  {
-    name: "Adhi",
-    email: "adhi@gmail.com",
-    password: "adhi123",
-  },
-  {
-    name: "Hanvir",
-    email: "hanvir@gmail.com",
-    password: "hanvir123",
-  },
-  {
-    name: "Adit",
-    email: "adit@gmail.com",
-    password: "adit123",
-  },
-];
+const {users: UserModel} = require('../../models');
 
 class UserRepository {
-  constructor() {
-    // TODO:
-    this.users = users;
-  }
+    constructor() { }
+  
+    async getAll() {
+      const getUsers = await UserModel.findAll();
 
-  getAll() {
-    // TODO:
-    return this.users;
-  }
+      return getUsers;
+    }
 
-  add(user) {
-    // TODO:
-    this.users.push(user);
-    return user;
-  }
+    async getByEmail(email) {
+      const getUsers = await UserModel.findAll({
+        where: {
+            email: email
+        }
+      });
 
-  getByID(id) {
-    // TODO:
-    return this.users[id];
+      return getUsers;
+    }
+  
+    async add(user) {
+      const newUser = await UserModel.create({
+        name: user.name,
+        email: user.email,
+        password: user.password    
+      });
+        return newUser;
+    }
+  
   }
-
-  getByEmail(email) {
-    // TODO:
-    return this.users.find((user) => user.email === email);
-  }
-
-  deleteByID(id) {
-    // TODO:
-    this.users.splice(id, 1);
-    return true;
-  }
-}
-
-module.exports = UserRepository;
+  
+  module.exports = UserRepository;
