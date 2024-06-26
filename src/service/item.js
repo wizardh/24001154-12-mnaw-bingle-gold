@@ -1,31 +1,50 @@
 class ItemService {
-  constructor(itemRepository, userRepository) {
+  constructor(itemRepository) {
     this.itemRepository = itemRepository;
-    this.userRepository = userRepository;
   }
 
-  getAll() {
-    return this.itemRepository.getAll();
+  async getAll() {
+    const items = await this.itemRepository.getAll();
+
+    return {
+      statusCode: 200,
+      data: items,
+    };
   }
 
-  create(item) {
-    this.itemRepository.insert(item);
-    return "berhasil menambahkan item";
+  async getById(id) {
+    const items = await this.itemRepository.getById(id);
+
+    return {
+      statusCode: 200,
+      data: items,
+    };
   }
 
-  getById(id) {
-    const item = this.itemRepository.getById(id);
-    console.log(item);
-    if (item) {
-      return item;
-    } else {
-      throw new Error(`Id ${id} tidak terdaftar!`);
+  async create({ name, price }) {
+    // validasi input
+    console.log(typeof price);
+    if (!name || !price || typeof price != "number") {
+      return {
+        statusCode: 400,
+        data: {
+          status: "Error",
+          message: "Payload yang dikirim tidak sesuai, mohon diperiksa kembali",
+        },
+      };
     }
+
+    let newData = {
+      name: name,
+      price: price,
+    };
+
+    const createdItem = await this.itemRepository.add(newData);
+    return {
+      statusCode: 200,
+      data: createdItem,
+    };
   }
-
-  updateById(id) {}
-
-  deleteById(id) {}
 }
 
 module.exports = ItemService;

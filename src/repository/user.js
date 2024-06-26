@@ -1,33 +1,32 @@
-const {users: UserModel} = require('../../models');
+const { users: UserModel } = require("../../models");
 
 class UserRepository {
-    constructor() { }
-  
-    async getAll() {
-      const getUsers = await UserModel.findAll();
+  constructor() {}
 
-      return getUsers;
-    }
+  async getAll() {
+    const getUsers = await UserModel.findAll();
 
-    async getByEmail(email) {
-      const getUsers = await UserModel.findAll({
-        where: {
-            email: email
-        }
-      });
-
-      return getUsers;
-    }
-  
-    async add(user) {
-      const newUser = await UserModel.create({
-        name: user.name,
-        email: user.email,
-        password: user.password    
-      });
-        return newUser;
-    }
-  
+    return getUsers;
   }
-  
-  module.exports = UserRepository;
+
+  async getByEmail(email) {
+    const getUsers = await UserModel.findAll({
+      where: {
+        email: email,
+      },
+    });
+
+    return getUsers;
+  }
+
+  async add(user) {
+    const newUser = await UserModel.create({
+      name: user.name,
+      email: user.email,
+      password: user.password,
+    });
+    return newUser;
+  }
+}
+
+module.exports = UserRepository;

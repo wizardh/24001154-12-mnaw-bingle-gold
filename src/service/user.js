@@ -4,9 +4,31 @@ class UserService {
   }
 
   async getAll() {
-    const users = await this.userRepository.getAll()
+    const users = await this.userRepository.getAll();
 
-    return users;
+    return {
+      statusCode: 200,
+      data: users,
+    };
+  }
+
+  async getByEmail(email) {
+    const user = await this.userRepository.getByEmail(email);
+
+    if (user.length > 0) {
+      return {
+        statusCode: 200,
+        data: user,
+      };
+    } else {
+      return {
+        statusCode: 400,
+        data: {
+          status: "error",
+          message: "Email tidak ditemukan",
+        },
+      };
+    }
   }
 }
 

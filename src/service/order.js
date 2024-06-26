@@ -1,31 +1,27 @@
-class OrdersService {
+class OrderService {
   constructor(orderRepository) {
     this.orderRepository = orderRepository;
   }
 
-  getAll() {
-    const orders = this.orderRepository.getAll();
-    return orders;
+  async getAll() {
+    const items = await this.orderRepository.getAll();
+
+    return items;
   }
 
-  create(order) {
-    // TODO: pengecekan apakah user terdaftar
-    this.orderRepository.insert(order);
-    return "berhasil menambahkan order";
+  async getById(id) {
+    const order = await this.orderRepository;
   }
 
-  getById(id) {
-    const order = this.orderRepository.getById(id);
-    if (order) {
-      return order;
-    } else {
-      throw new Error(`Id ${id} tidak terdaftar!`);
-    }
+  async create({ name, price }) {
+    let newData = {
+      name: name,
+      price: price,
+    };
+
+    const createdItem = await this.orderRepository.add(newData);
+    return createdItem;
   }
-
-  updateById(id) {}
-
-  deleteById(id) {}
 }
 
-module.exports = OrdersService;
+module.exports = OrderService;
