@@ -1,7 +1,5 @@
 class OrderRepository {
-  constructor() {
-    this.orders = orders;
-  }
+  constructor() { }
 
   getAll() {
     return this.orders;
