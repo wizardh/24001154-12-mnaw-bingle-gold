@@ -19,7 +19,7 @@ class OrderService {
 
     return {
       statusCode: 200,
-      data: order,
+      data: order[0],
     };
   }
 
@@ -74,6 +74,31 @@ class OrderService {
       data: createdOrder,
     };
   }
+
+  async update({ id, status }) {
+    // validasi input id
+    const findOrder = await this.orderRepository.getById(id);
+    if ( findOrder.length == 0 ) {
+      return {
+        statusCode: 400,
+        data: {
+          status: "Error",
+          message: "Order tidak ditemukan, mohon diperiksa kembali",
+        },
+      };
+    }
+
+    let newData = {
+      id: id,
+      status: status,
+    };
+
+    const updatedOrder = await this.orderRepository.update(newData);
+    return {
+      statusCode: 200,
+      data: updatedOrder,
+    };
+  }  
 }
 
 module.exports = OrderService;

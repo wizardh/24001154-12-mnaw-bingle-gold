@@ -53,7 +53,9 @@ const orderService = new OrderService(orderRepository, itemRepository, userRepos
 const orderHandler = new OrderHandler(orderService);
 
 app.get("/orders", orderHandler.getAll);
+app.get("/orders/:id", orderHandler.getById);
 app.post("/orders", orderHandler.create);
+app.patch("/orders", orderHandler.update);
 
 app.use((req, res, next) => {
   res.status(404).send({

@@ -17,6 +17,9 @@ class OrderRepository {
       where: {
         id: id,
       },
+      include: [
+        UserModel, ItemModel
+      ]
     });
 
     return getOrder;
@@ -33,6 +36,17 @@ class OrderRepository {
     });
 
     return newOrder;
+  }
+
+  async update(order) {
+    const updatedOrder = await OrderModel.update(
+      { status: order.status },
+      { where: {
+          id: order.id,
+        },
+      },
+    );
+    return updatedOrder;
   }
 }
 

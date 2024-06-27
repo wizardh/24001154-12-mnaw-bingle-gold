@@ -5,6 +5,7 @@ class OrderHandler {
     this.getAll = this.getAll.bind(this);
     this.getById = this.getById.bind(this);
     this.create = this.create.bind(this);
+    this.update = this.update.bind(this);
   }
 
   async getAll(req, res) {
@@ -26,6 +27,13 @@ class OrderHandler {
 
     res.status(serviceRes.statusCode).send(serviceRes.data);
   }
+
+  async update(req, res) {
+    const order = req.body;
+    const serviceRes = await this.orderService.update(order);
+
+    res.status(serviceRes.statusCode).send(serviceRes.data);
+  }  
 }
 
 module.exports = OrderHandler;
