@@ -12,6 +12,15 @@ module.exports = {
       user_id: {
         type: Sequelize.INTEGER
       },
+      item_id: {
+        type: Sequelize.INTEGER
+      },
+      price: {
+        type: Sequelize.DOUBLE
+      },
+      qty: {
+        type: Sequelize.INTEGER
+      },
       total: {
         type: Sequelize.DOUBLE
       },

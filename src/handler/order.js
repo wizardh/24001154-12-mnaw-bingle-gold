@@ -7,36 +7,24 @@ class OrderHandler {
     this.create = this.create.bind(this);
   }
 
-  getAll(req, res) {
-    const orders = this.orderService.getAll();
-    res.status(200).send({
-      orders: orders,
-    });
+  async getAll(req, res) {
+    const serviceRes = await this.orderService.getAll();
+
+    res.status(serviceRes.statusCode).send(serviceRes.data);
   }
 
-  create(req, res) {
+  async create(req, res) {
     const order = req.body;
-    const createdOrder = this.orderService.create(order);
+    const serviceRes = await this.orderService.create(order);
 
-    res.status(201).send({
-      message: createdOrder,
-    });
+    res.status(serviceRes.statusCode).send(serviceRes.data);
   }
 
-  getById(req, res) {
-    try {
-      const id = req.params.id;
-      const order = this.orderService.getById(id);
-      console.log(order);
-      res.send({
-        order: order,
-      });
-    } catch (e) {
-      res.status(404).send({
-        error: true,
-        message: e.message,
-      });
-    }
+  async getById(req, res) {
+    const id = req.params.id;
+    const serviceRes = await this.orderService.getById(id);
+
+    res.status(serviceRes.statusCode).send(serviceRes.data);
   }
 }
 

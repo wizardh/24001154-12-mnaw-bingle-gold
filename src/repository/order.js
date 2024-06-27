@@ -1,22 +1,38 @@
+const { orders: OrderModel, users: UserModel, items: ItemModel } = require("../../models");
 class OrderRepository {
   constructor() {}
 
-  getAll() {
-    return this.orders;
+  async getAll() {
+    const getOrders = await OrderModel.findAll({
+      include: [
+        UserModel, ItemModel
+      ]
+    });
+
+    return getOrders;
   }
 
-  create(order) {
-    this.orders.push(order);
-    return orders;
+  async getById(id) {
+    const getOrder = await OrderModel.findAll({
+      where: {
+        id: id,
+      },
+    });
+
+    return getOrder;
   }
 
-  getById(id) {
-    return this.orders.find((id) => orders.id === Number(id));
-  }
+  async add(order) {
+    const newOrder = await OrderModel.create({
+      user_id: order.user_id,
+      item_id: order.item_id,
+      price: order.price,
+      qty: order.qty,
+      total: order.total,
+      status: order.status
+    });
 
-  deleteByID(id) {
-    this.orders.splice(id, 1);
-    return true;
+    return newOrder;
   }
 }
 

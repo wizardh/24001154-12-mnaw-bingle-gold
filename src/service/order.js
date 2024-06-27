@@ -1,26 +1,78 @@
 class OrderService {
-  constructor(orderRepository) {
+  constructor(orderRepository, itemRepositroy, userRepository) {
     this.orderRepository = orderRepository;
+    this.itemRepositroy = itemRepositroy;
+    this.userRepository = userRepository;
   }
 
   async getAll() {
-    const items = await this.orderRepository.getAll();
+    const orders = await this.orderRepository.getAll();
 
-    return items;
+    return {
+      statusCode: 200,
+      data: orders,
+    };
   }
 
   async getById(id) {
-    const order = await this.orderRepository;
+    const order = await this.orderRepository.getById(id);
+
+    return {
+      statusCode: 200,
+      data: order,
+    };
   }
 
-  async create({ name, price }) {
+  async create({ user_id, item_id, qty }) {
+    // validasi input user_id
+    const findUser = await this.userRepository.getById(user_id);
+    if ( findUser.length == 0 ) {
+      return {
+        statusCode: 400,
+        data: {
+          status: "Error",
+          message: "User tidak ditemukan, mohon diperiksa kembali",
+        },
+      };
+    }
+
+    // validasi input item_id
+    const findItem = await this.itemRepositroy.getById(item_id);
+    if ( findItem.length == 0) {
+      return {
+        statusCode: 400,
+        data: {
+          status: "Error",
+          message: "Item tidak ditemukan, mohon diperiksa kembali",
+        },
+      };
+    }
+
+    // validasi qty
+    if (typeof qty != "number") {
+      return {
+        statusCode: 400,
+        data: {
+          status: "Error",
+          message: "Payload yang dikirim tidak sesuai, mohon diperiksa kembali",
+        },
+      };
+    }
+
     let newData = {
-      name: name,
-      price: price,
+      user_id: user_id,
+      item_id: item_id,
+      price: findItem[0].price,
+      qty: qty,
+      total: findItem[0].price * qty,
+      status: "Pesanan Dibuat",
     };
 
-    const createdItem = await this.orderRepository.add(newData);
-    return createdItem;
+    const createdOrder = await this.orderRepository.add(newData);
+    return {
+      statusCode: 200,
+      data: createdOrder,
+    };
   }
 }
 

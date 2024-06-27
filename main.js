@@ -35,7 +35,8 @@ const userService = new UserService(userRepository);
 const userHandler = new UserHandler(userService);
 
 app.get("/users", userHandler.getAll);
-app.get("/users/:email", userHandler.getByEmail);
+app.get("/users/email/:email", userHandler.getByEmail);
+app.get("/users/id/:id", userHandler.getById);
 
 // Item
 const itemRepository = new ItemRepository();
@@ -43,14 +44,16 @@ const itemService = new ItemService(itemRepository);
 const itemHandler = new ItemHandler(itemService);
 
 app.get("/items", itemHandler.getAll);
+app.get("/items/:id", itemHandler.getById);
 app.post("/items", itemHandler.create);
 
 // Order
 const orderRepository = new OrderRepository();
-const orderService = new OrderService(itemRepository);
-const orderHandler = new OrderHandler(itemService);
+const orderService = new OrderService(orderRepository, itemRepository, userRepository);
+const orderHandler = new OrderHandler(orderService);
 
 app.get("/orders", orderHandler.getAll);
+app.post("/orders", orderHandler.create);
 
 app.use((req, res, next) => {
   res.status(404).send({

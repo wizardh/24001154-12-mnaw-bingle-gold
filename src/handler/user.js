@@ -4,6 +4,7 @@ class UserHandler {
 
     this.getAll = this.getAll.bind(this);
     this.getByEmail = this.getByEmail.bind(this);
+    this.getById = this.getById.bind(this);
   }
 
   async getAll(req, res) {
@@ -16,6 +17,12 @@ class UserHandler {
     const serviceRes = await this.userService.getByEmail(email);
     res.status(serviceRes.statusCode).send(serviceRes.data);
   }
+
+  async getById(req, res) {
+    const id = req.params.id;
+    const serviceRes = await this.userService.getById(id);
+    res.status(serviceRes.statusCode).send(serviceRes.data);
+  }  
 }
 
 module.exports = UserHandler;

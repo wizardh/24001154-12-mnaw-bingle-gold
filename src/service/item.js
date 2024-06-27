@@ -13,12 +13,23 @@ class ItemService {
   }
 
   async getById(id) {
-    const items = await this.itemRepository.getById(id);
+    const item = await this.itemRepository.getById(id);
 
-    return {
-      statusCode: 200,
-      data: items,
-    };
+    if (item.length > 0) {
+      return {
+        statusCode: 200,
+        data: item[0],
+      };
+    } else {
+      return {
+        statusCode: 400,
+        data: {
+          status: "error",
+          message: "Id tidak ditemukan",
+        },
+      };
+    }
+
   }
 
   async create({ name, price }) {

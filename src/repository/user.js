@@ -9,6 +9,16 @@ class UserRepository {
     return getUsers;
   }
 
+  async getById(id) {
+    const getUsers = await UserModel.findAll({
+      where: {
+        id: id,
+      },
+    });
+
+    return getUsers;
+  }
+
   async getByEmail(email) {
     const getUsers = await UserModel.findAll({
       where: {
