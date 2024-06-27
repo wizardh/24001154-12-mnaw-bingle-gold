@@ -5,6 +5,8 @@ class ItemHandler {
     this.getAll = this.getAll.bind(this);
     this.getById = this.getById.bind(this);
     this.create = this.create.bind(this);
+    this.update = this.update.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   async getAll(req, res) {
@@ -24,9 +26,22 @@ class ItemHandler {
     const item = req.body;
     const serviceRes = await this.itemService.create(item);
 
-    res.status(serviceRes.statusCode).send(serviceRes.data);  
+    res.status(serviceRes.statusCode).send(serviceRes.data);
   }
 
+  async update(req, res) {
+    const item = req.body;
+    const serviceRes = await this.itemService.update(item);
+
+    res.status(serviceRes.statusCode).send(serviceRes.data);
+  }
+
+  async delete(req, res) {
+    const id = req.params.id;
+    const serviceRes = await this.itemService.delete(id);
+
+    res.status(serviceRes.statusCode).send(serviceRes.data);
+  }
 }
 
 module.exports = ItemHandler;

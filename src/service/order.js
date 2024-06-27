@@ -26,7 +26,7 @@ class OrderService {
   async create({ user_id, item_id, qty }) {
     // validasi input user_id
     const findUser = await this.userRepository.getById(user_id);
-    if ( findUser.length == 0 ) {
+    if (findUser.length == 0) {
       return {
         statusCode: 400,
         data: {
@@ -38,7 +38,7 @@ class OrderService {
 
     // validasi input item_id
     const findItem = await this.itemRepositroy.getById(item_id);
-    if ( findItem.length == 0) {
+    if (findItem.length == 0) {
       return {
         statusCode: 400,
         data: {
@@ -65,7 +65,7 @@ class OrderService {
       price: findItem[0].price,
       qty: qty,
       total: findItem[0].price * qty,
-      status: "Pesanan Dibuat",
+      status: "Diterima",
     };
 
     const createdOrder = await this.orderRepository.add(newData);
@@ -78,7 +78,7 @@ class OrderService {
   async update({ id, status }) {
     // validasi input id
     const findOrder = await this.orderRepository.getById(id);
-    if ( findOrder.length == 0 ) {
+    if (findOrder.length == 0) {
       return {
         statusCode: 400,
         data: {
@@ -94,11 +94,46 @@ class OrderService {
     };
 
     const updatedOrder = await this.orderRepository.update(newData);
-    return {
-      statusCode: 200,
-      data: updatedOrder,
-    };
-  }  
+    if (updatedOrder > 0) {
+      return {
+        statusCode: 200,
+        data: {
+          status: "success",
+          message: "Order berhasil diperbarui",
+        },
+      };
+    } else {
+      return {
+        statusCode: 400,
+        data: {
+          status: "error",
+          message: "Tidak ada data yang diperbarui",
+        },
+      };
+    }
+  }
+
+  async delete(id) {
+    const deletedOrder = await this.orderRepository.delete(id);
+
+    if (deletedOrder == 1) {
+      return {
+        statusCode: 200,
+        data: {
+          status: "success",
+          message: "Order berhasil dihapus",
+        },
+      };
+    } else {
+      return {
+        statusCode: 400,
+        data: {
+          status: "error",
+          message: "Id tidak ditemukan",
+        },
+      };
+    }
+  }
 }
 
 module.exports = OrderService;

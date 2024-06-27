@@ -37,6 +37,28 @@ class UserRepository {
     });
     return newUser;
   }
+
+  async update(user) {
+    const updatedUser = await UserModel.update(
+      { password: user.password },
+      {
+        where: {
+          id: user.id,
+        },
+      }
+    );
+    return updatedUser;
+  }
+
+  async delete(id) {
+    const deletedUser = await UserModel.destroy({
+      where: {
+        id: id,
+      },
+    });
+
+    return deletedUser;
+  }
 }
 
 module.exports = UserRepository;

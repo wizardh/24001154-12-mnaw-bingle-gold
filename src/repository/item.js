@@ -27,6 +27,28 @@ class ItemRepository {
 
     return newItem;
   }
+
+  async update(item) {
+    const updatedItem = await ItemModel.update(
+      { price: item.price },
+      {
+        where: {
+          id: item.id,
+        },
+      }
+    );
+    return updatedItem;
+  }
+
+  async delete(id) {
+    const deletedItem = await ItemModel.destroy({
+      where: {
+        id: id,
+      },
+    });
+
+    return deletedItem;
+  }  
 }
 
 module.exports = ItemRepository;

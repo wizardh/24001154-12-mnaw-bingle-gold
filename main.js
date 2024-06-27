@@ -37,6 +37,8 @@ const userHandler = new UserHandler(userService);
 app.get("/users", userHandler.getAll);
 app.get("/users/email/:email", userHandler.getByEmail);
 app.get("/users/id/:id", userHandler.getById);
+app.patch("/users/id/:id", userHandler.update);
+app.delete("/users/id/:id", userHandler.delete);
 
 // Item
 const itemRepository = new ItemRepository();
@@ -46,6 +48,8 @@ const itemHandler = new ItemHandler(itemService);
 app.get("/items", itemHandler.getAll);
 app.get("/items/:id", itemHandler.getById);
 app.post("/items", itemHandler.create);
+app.patch("/items/:id", itemHandler.update);
+app.delete("/items/:id", itemHandler.delete);
 
 // Order
 const orderRepository = new OrderRepository();
@@ -56,6 +60,8 @@ app.get("/orders", orderHandler.getAll);
 app.get("/orders/:id", orderHandler.getById);
 app.post("/orders", orderHandler.create);
 app.patch("/orders", orderHandler.update);
+app.delete("/orders/:id", orderHandler.delete);
+
 
 app.use((req, res, next) => {
   res.status(404).send({
