@@ -10,23 +10,23 @@ class UserRepository {
   }
 
   async getById(id) {
-    const getUsers = await UserModel.findOne({
+    const getUser = await UserModel.findOne({
       where: {
         id: id,
       },
     });
 
-    return getUsers;
+    return getUser;
   }
 
   async getByEmail(email) {
-    const getUsers = await UserModel.findOne({
+    const getUser = await UserModel.findOne({
       where: {
         email: email,
       },
     });
 
-    return getUsers;
+    return getUser;
   }
 
   async add(user) {

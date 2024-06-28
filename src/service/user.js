@@ -15,7 +15,7 @@ class UserService {
   async getById(id) {
     const user = await this.userRepository.getById(id);
 
-    if (user.length > 0) {
+    if (user) {
       return {
         statusCode: 200,
         data: user,
@@ -34,7 +34,7 @@ class UserService {
   async getByEmail(email) {
     const user = await this.userRepository.getByEmail(email);
 
-    if (user.length > 0) {
+    if (user) {
       return {
         statusCode: 200,
         data: user,
