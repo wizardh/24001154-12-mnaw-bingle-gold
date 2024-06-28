@@ -8,7 +8,16 @@ class OrderRepository {
 
   async getAll() {
     const getOrders = await OrderModel.findAll({
-      include: [UserModel, ItemModel],
+      include: [
+        {
+          model: UserModel,
+          attributes: ["name", "email"],
+        },
+        {
+          model: ItemModel,
+          attributes: ["name"],
+        },
+      ],
     });
 
     return getOrders;
@@ -19,7 +28,16 @@ class OrderRepository {
       where: {
         id: id,
       },
-      include: [UserModel, ItemModel],
+      include: [
+        {
+          model: UserModel,
+          attributes: ["name", "email"],
+        },
+        {
+          model: ItemModel,
+          attributes: ["name"],
+        },
+      ],
     });
 
     return getOrder;
