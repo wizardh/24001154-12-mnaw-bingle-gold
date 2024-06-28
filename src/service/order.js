@@ -19,14 +19,14 @@ class OrderService {
 
     return {
       statusCode: 200,
-      data: order[0],
+      data: order,
     };
   }
 
   async create({ user_id, item_id, qty }) {
     // validasi input user_id
     const findUser = await this.userRepository.getById(user_id);
-    if (findUser.length == 0) {
+    if (!findUser) {
       return {
         statusCode: 400,
         data: {
@@ -38,7 +38,7 @@ class OrderService {
 
     // validasi input item_id
     const findItem = await this.itemRepositroy.getById(item_id);
-    if (findItem.length == 0) {
+    if (!findItem) {
       return {
         statusCode: 400,
         data: {
@@ -62,9 +62,9 @@ class OrderService {
     let newData = {
       user_id: user_id,
       item_id: item_id,
-      price: findItem[0].price,
+      price: findItem.price,
       qty: qty,
-      total: findItem[0].price * qty,
+      total: findItem.price * qty,
       status: "Diterima",
     };
 
@@ -78,7 +78,7 @@ class OrderService {
   async update({ id, status }) {
     // validasi input id
     const findOrder = await this.orderRepository.getById(id);
-    if (findOrder.length == 0) {
+    if (!findOrder) {
       return {
         statusCode: 400,
         data: {

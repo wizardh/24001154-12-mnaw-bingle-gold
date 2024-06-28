@@ -15,10 +15,10 @@ class ItemService {
   async getById(id) {
     const item = await this.itemRepository.getById(id);
 
-    if (item.length > 0) {
+    if (item) {
       return {
         statusCode: 200,
-        data: item[0],
+        data: item,
       };
     } else {
       return {
@@ -29,7 +29,6 @@ class ItemService {
         },
       };
     }
-
   }
 
   async create({ name, price }) {
@@ -60,7 +59,7 @@ class ItemService {
   async update({ id, price }) {
     // validasi input id
     const findItem = await this.itemRepository.getById(id);
-    if (findItem.length == 0) {
+    if (!findItem) {
       return {
         statusCode: 400,
         data: {
@@ -115,7 +114,7 @@ class ItemService {
         },
       };
     }
-  }  
+  }
 }
 
 module.exports = ItemService;

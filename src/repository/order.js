@@ -15,7 +15,7 @@ class OrderRepository {
   }
 
   async getById(id) {
-    const getOrder = await OrderModel.findAll({
+    const getOrder = await OrderModel.findOne({
       where: {
         id: id,
       },

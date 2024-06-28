@@ -22,7 +22,7 @@ class AuthService {
     };
 
     const findUser = await this.userRepository.getByEmail(email);
-    if (findUser.length == 0) {
+    if (!findUser) {
       const createdUser = await this.userRepository.add(newData);
       return {
         statusCode: 201,
@@ -44,8 +44,8 @@ class AuthService {
 
   async login({ email, password }) {
     const findUser = await this.userRepository.getByEmail(email);
-    if (findUser.length > 0) {
-      if (findUser[0].password === password) {
+    if (findUser) {
+      if (findUser.password === password) {
         return {
           statusCode: 200,
           data: {

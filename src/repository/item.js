@@ -10,7 +10,7 @@ class ItemRepository {
   }
 
   async getById(id) {
-    const getItem = await ItemModel.findAll({
+    const getItem = await ItemModel.findOne({
       where: {
         id: id,
       },
