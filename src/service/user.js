@@ -18,7 +18,7 @@ class UserService {
     if (user.length > 0) {
       return {
         statusCode: 200,
-        data: user[0],
+        data: user,
       };
     } else {
       return {
@@ -37,7 +37,7 @@ class UserService {
     if (user.length > 0) {
       return {
         statusCode: 200,
-        data: user[0],
+        data: user,
       };
     } else {
       return {
